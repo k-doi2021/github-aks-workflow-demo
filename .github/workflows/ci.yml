@@ -25,6 +25,9 @@ jobs:
         run: |
           az acr build --registry trainingapcacr --image todo-app:training99-${{ github.event.number }} .
 
+      - name: Log in to Azure Container Registry for Docker
+        run: az acr login --name trainingapcacr
+
       - name: Scan image for vulnerabilities with Trivy
         uses: aquasecurity/trivy-action@master
         with:
