@@ -24,3 +24,17 @@ jobs:
       - name: Build container image in ACR
         run: |
           az acr build --registry trainingapcacr --image todo-app:training99-${{ github.event.number }} .
+
+      - name: Scan image for vulnerabilities with Trivy
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: 'trainingapcacr.azurecr.io/todo-app:training99-${{ github.event.number }}'
+          format: 'sarif'
+          output: 'trivy-results.sarif'
+          severity: 'HIGH,CRITICAL'
+          exit-code: '0' # パイプラインを止めずに結果を報告する
+
+      - name: Upload Trivy scan results to GitHub Security tab
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: 'trivy-results.sarif'
