@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: todo-app
-        image: trainingapcacr.azurecr.io/todo-app:taining99-5
+        image: trainingapcacr.azurecr.io/todo-app:training99-5
         ports:
         - containerPort: 3000
 ---
