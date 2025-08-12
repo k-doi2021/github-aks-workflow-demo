@@ -34,7 +34,7 @@ jobs:
           image-ref: 'trainingapcacr.azurecr.io/todo-app:training99-${{ github.event.number }}'
           format: 'sarif'
           output: 'trivy-results.sarif'
-          severity: 'HIGH,CRITICAL'
+          severity: 'LOW,MEDIUM,HIGH,CRITICAL'
           exit-code: '0' # パイプラインを止めずに結果を報告する
 
       - name: Upload Trivy scan results to GitHub Security tab
