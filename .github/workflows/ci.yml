@@ -32,14 +32,14 @@ jobs:
       - name: Log in to Azure Container Registry for Docker
         run: az acr login --name trainingapcacr
 
-      - name: Scan image for vulnerabilities with Trivy
-        uses: aquasecurity/trivy-action@master
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@7b7aa264d83dc58691451798b4d117d53d21edfe
         with:
           image-ref: 'trainingapcacr.azurecr.io/todo-app:training99-${{ github.event.number }}'
-          format: 'sarif'
+          format: 'template'
+          template: '@/contrib/sarif.tpl'
           output: 'trivy-results.sarif'
-          severity: 'UNKNOWN,LOW,MEDIUM,HIGH,CRITICAL'
-          exit-code: '0' # パイプラインを止めずに結果を報告する
+          severity: 'CRITICAL,HIGH'
 
       - name: Upload Trivy scan results to GitHub Security tab
         uses: github/codeql-action/upload-sarif@v3
